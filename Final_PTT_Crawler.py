@@ -19,7 +19,7 @@ def get_web_page(url):
     time.sleep(0.1)  
     resp = requests.get(
         url=url,
-        cookies={'over18': '1'}
+#
     )
     if resp.status_code != 200:
         print('Invalid url:', resp.url)
