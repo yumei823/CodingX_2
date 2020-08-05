@@ -19,7 +19,7 @@ def get_web_page(url):
     time.sleep(0.1)  
     resp = requests.get(
         url=url,
-        cookies={'over18': '1'}
+#
     )
     if resp.status_code != 200:
         print('Invalid url:', resp.url)
@@ -97,35 +97,38 @@ if __name__ == '__main__':
     #2 = 'Lifeismoney'
     #3 = '振興'
     #4 = '三倍'
-    new_sum_sem_list = [0,0,0,0]
+    KEY = 1
+    Board = str(input("請輸入想要搜尋的版(Ex:creditcard)  :  "))
+    PTT_URL = 'https://www.ptt.cc/bbs/' if KEY == 1 else 'https://www.ptt.cc/bbs/' + Board + '/index.html'
+    page_num = 10
     datazise = eval(input("請輸入欲分析的詞彙個數  :  "))
+    new_sum_sem_list = [0]*datazise
+    urls = []
     semantic_list = []			#存放輸入的關鍵字
-    for i in range(datazise):
+    for i in range(0,datazise):
         semantic_in = input("請輸入第"+str(i+1)+"個關鍵字  :  ")			#改變你想要找的關鍵字
+        Search = semantic_in
         semantic_list.append(semantic_in)
-    for q in range(0,4):
-        KEY = 1#有沒有加入搜尋字眼 1:有 0:沒有
-        if q == 0:
-            Board = 'creditcard'	    	#選取PTT看板	!!!!!!(凡是設有內容分級規定處理，即不能直接進入看板者，EX.八卦版...等會沒辦法爬)!!!!!
-            Search = '振興'   		#加入搜尋特定字眼的文章 EX.在「省錢」/「理財」版找尋標題有含'振興券/卷'or'三倍券/卷'的文章
-        elif q == 1:
-            Board = 'creditcard'
-            Search = '三倍'
-        elif q == 2:
-            Board = 'Lifeismoney'
-            Search = '振興'
-        elif q == 3:
-            Board = 'Lifeismoney'
-            Search = '三倍'
-        PTT_URL = 'https://www.ptt.cc/bbs/' if KEY == 1 else 'https://www.ptt.cc/bbs/' + Board + '/index.html'
-        page_num = 10
+    for q in range(0,datazise):
+        #有沒有加入搜尋字眼 1:有 0:沒有
+#        if q == 0:
+#            Board = 'creditcard'	    	#選取PTT看板	!!!!!!(凡是設有內容分級規定處理，即不能直接進入看板者，EX.八卦版...等會沒辦法爬)!!!!!
+#            Search = '振興'   		#加入搜尋特定字眼的文章 EX.在「省錢」/「理財」版找尋標題有含'振興券/卷'or'三倍券/卷'的文章
+#        elif q == 1:
+#            Board = 'creditcard'
+#            Search = '三倍'
+#        elif q == 2:
+#            Board = 'Lifeismoney'
+#            Search = '振興'
+#        elif q == 3:
+#            Board = 'Lifeismoney'
+#            Search = '三倍'
         ############################################################
         '''
         datazise = eval(input("請輸入欲分析的詞彙個數  :  "))
         '''
         ############################################################
         #輸入關鍵字
-        urls = []
 
         '''
         semantic_list = []			#存放輸入的關鍵字
@@ -158,7 +161,7 @@ if __name__ == '__main__':
             sum_sem_list.append(sem_count)
         print(sum_sem_list)
 
-        for i in range(0,4):
+        for i in range(0,datazise):
             new_sum_sem_list[i] = new_sum_sem_list[i] + sum_sem_list[i]
         print(new_sum_sem_list)
 
