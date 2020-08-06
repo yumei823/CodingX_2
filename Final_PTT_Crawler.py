@@ -49,18 +49,6 @@ def get_article_url(text):
     return url
 
 #############################################
-#    	讀取看板頁面(沒有加搜尋字眼時使用)     #
-##################a##########################
-def getNext(url):
-    urls = get_web_page(url)                      #urls
-    soup = BeautifulSoup(urls, 'html.parser')
-    div = soup.find_all('a','btn wide')
-    for i in div:
-        if i.getText() == '‹ 上頁':
-            nextPage = 'https://www.ptt.cc' + i.get('href')
-    return nextPage
-    
-#############################################
 #          			畫圖				     #
 ##################a##########################
 ##################圓餅圖######################
@@ -94,7 +82,7 @@ if __name__ == '__main__':
     #2 = 'Lifeismoney'
     #3 = '振興'
     #4 = '三倍'
-    KEY = 1      #有沒有加入搜尋字眼 1:有 0:沒有
+
     print('''省錢: Lifeismoney/CPBL: Elephants/籃球: NBA,
 遊戲: LOL/Hate: HatePolitics/婚姻: marriage,
 車車: car/資訊: MobileComm/工作: Tech_Job,
@@ -106,7 +94,7 @@ if __name__ == '__main__':
 綜藝: KR_Entertain/手遊: PCReDive/資訊: CVS,
 台中: TaichungBun/系統: iOS/美容: MakeUp''')
     Board = str(input("請輸入想要搜尋的版(Ex:creditcard)  :  "))
-    PTT_URL = 'https://www.ptt.cc/bbs/' if KEY == 1 else 'https://www.ptt.cc/bbs/' + Board + '/index.html'
+    PTT_URL = 'https://www.ptt.cc/bbs/'
     page_num = 10
     datasize = eval(input("請輸入欲分析的詞彙個數  :  "))  
     urls = []
@@ -120,8 +108,7 @@ if __name__ == '__main__':
     for critic_word in range(0,1):
         articles = []		#articles: ptt文章所有內容
         for page in range(page_num):	#取得PTT頁面資訊
-            url_key = PTT_URL + Board + '/search?page=' + str(page+1) + '&q=' + Search
-            url = url_key if KEY == 1 else PTT_URL if page == 0 else getNext(PTT_URL)
+            url = PTT_URL + Board + '/search?page=' + str(page+1) + '&q=' + Search
             response = requests.get(url)
             urls = get_article_url(response.text)
         ############################################################
