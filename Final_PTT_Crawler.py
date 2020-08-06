@@ -1,4 +1,4 @@
-#-*-coding:utf-8 -*-
+#
 
 #############################################
 #              將所需函式庫加入             #
@@ -120,19 +120,19 @@ if __name__ == '__main__':
         PTT_URL = 'https://www.ptt.cc/bbs/' if KEY == 1 else 'https://www.ptt.cc/bbs/' + Board + '/index.html'
         page_num = 10
         ############################################################
-        '''
-        datazise = eval(input("請輸入欲分析的詞彙個數  :  "))
-        '''
-        ############################################################
-        #輸入關鍵字
+#       
+#       
+#        
+#      
+#       
         urls = []
 
-        '''
-        semantic_list = []			#存放輸入的關鍵字
-        for i in range(datazise):
-            semantic_in = input("請輸入第"+str(i+1)+"個關鍵字  :  ")			#改變你想要找的關鍵字
-            semantic_list.append(semantic_in)
-        '''
+#        
+#        
+#        
+#          			
+#            
+#        
         ############################################################
         articles, push_tags = [], []		#articles: ptt文章所有內容   #push_tags: 推噓文資訊
         for page in range(page_num):	#取得PTT頁面資訊
