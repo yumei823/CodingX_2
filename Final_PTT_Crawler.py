@@ -17,22 +17,18 @@ import numpy as np
 #############################################
 def get_web_page(url):
     time.sleep(0.1)
-                                    #resp改成responce
-    responce = requests.get(
-        url=url,
-#
-    )
-    if responce.status_code != 200:
-        print('Invalid url:', responce.url)
+    response = requests.get(url)     #resp改成responce
+    if response.status_code != 200:
+        print('Invalid url:', response.url)
         return None
     else:
-        return responce.text
+        return response.text
 
 #############################################
 #          對PTT網頁進行資料擷取             #
 #############################################
-def get_data(dom):                            #搜索dom節點
-    soup = BeautifulSoup(dom , 'html.parser')
+def get_data(text):                            #搜索dom節點
+    soup = BeautifulSoup(text , 'html.parser')
     article = soup.find(id='main-content')
 
     return article
