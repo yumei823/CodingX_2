@@ -118,35 +118,8 @@ if __name__ == '__main__':
         semantic_in = input("請輸入第"+str(num_word+1)+"個關鍵字  :  ")			#改變你想要找的關鍵字
         Search = semantic_in
         semantic_list.append(semantic_in)
-    for critic_word in range(0,datasize):                        #q改為critic_word
-        #有沒有加入搜尋字眼 1:有 0:沒有
-#        if critic_word == 0:
-#            Board = 'creditcard'	    	#選取PTT看板	!!!!!!(凡是設有內容分級規定處理，即不能直接進入看板者，EX.八卦版...等會沒辦法爬)!!!!!
-#            Search = '振興'   		#加入搜尋特定字眼的文章 EX.在「省錢」/「理財」版找尋標題有含'振興券/卷'or'三倍券/卷'的文章
-#        elif critic_word == 1:
-#            Board = 'creditcard'
-#            Search = '三倍'
-#        elif critic_word == 2:
-#            Board = 'Lifeismoney'
-#            Search = '振興'
-#        elif critic_word == 3:
-#            Board = 'Lifeismoney'
-#            Search = '三倍'
-        ############################################################
-        '''
-        datasize = eval(input("請輸入欲分析的詞彙個數  :  "))
-        '''
-        ############################################################
-        #輸入關鍵字
-
-        '''
-        semantic_list = []			#存放輸入的關鍵字
-        for i in range(datasize):
-            semantic_in = input("請輸入第"+str(i+1)+"個關鍵字  :  ")			#改變你想要找的關鍵字
-            semantic_list.append(semantic_in)
-        '''
-        ############################################################
-        articles = []		#articles: ptt文章所有內容   #push_tags: 推噓文資訊
+    for critic_word in range(0,datasize):
+        articles = []		#articles: ptt文章所有內容
         for page in range(page_num):	#取得PTT頁面資訊
             url_key = PTT_URL + Board + '/search?page=' + str(page+1) + '&q=' + Search
             url = url_key if KEY == 1 else PTT_URL if page == 0 else getNext(PTT_URL)
@@ -161,7 +134,7 @@ if __name__ == '__main__':
                 
         ############################################################
         #計算關鍵字出現次數，以及關鍵字出現的文章其推噓文數量
-        sum_sem_list = []			#該關鍵字出現總數
+        sum_sem_list = []			            #該關鍵字出現總數
         for sum_critic in range(datasize):      #把i改成sum_critic
             sem_count = 0
             count = 0
