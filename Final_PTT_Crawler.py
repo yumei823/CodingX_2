@@ -17,24 +17,24 @@ import numpy as np
 #############################################
 def get_web_page(url):
     time.sleep(0.1)  
-    resp = requests.get(
-        url=url,
-        cookies={'over18': '1'}
-    )
-    if resp.status_code != 200:
-        print('Invalid url:', resp.url)
+    response = requests.get(url)    
+### =url可刪  
+### response與resp功能一樣，變數2選1留即可，因response命名較完整，所以先改掉resp．Merge時請刪此注解         
+#    
+    if response.status_code != 200:
+        print('Invalid url:', response.url)
         return None
     else:
-        return resp.text
+        return response.text
 
 #############################################
 #          對PTT網頁進行資料擷取              #
 #############################################
-def get_data(dom):
-    soup = BeautifulSoup(dom , 'html.parser')
+def get_data(text):    #### dom與text功能一樣，刪,改成已有變數text，Merge時請刪此注解
+    soup = BeautifulSoup(text , 'html.parser')
     article = soup.find(id='main-content')
-    push_tag = soup.find_all('span', 'push-tag')
-    return article, push_tag
+#   
+    return article
 
 #############################################
 #          		讀取文章網址            	 #
@@ -54,15 +54,15 @@ def get_article_url(text):
 #############################################
 #    	讀取看板頁面(沒有加搜尋字眼時使用)     #
 ##################a##########################
-def getNext(url):
-    urls = get_web_page(url)
-    soup = BeautifulSoup(urls, 'html.parser')
-    div = soup.find_all('a','btn wide')
-    for i in div:
-        if i.getText() == '‹ 上頁':
-            nextPage = 'https://www.ptt.cc' + i.get('href')
-    return nextPage
-    
+###刪def getNext(url): ,merge時請刪此注解
+#   
+#  
+#   
+#    
+#        
+#            
+#    
+  
 #############################################
 #          			畫圖				     #
 ##################a##########################
@@ -125,8 +125,8 @@ if __name__ == '__main__':
 #        
 #      
 #       
-        urls = []
-
+#
+#
 #        
 #        
 #        
@@ -134,19 +134,19 @@ if __name__ == '__main__':
 #            
 #        
         ############################################################
-        articles, push_tags = [], []		#articles: ptt文章所有內容   #push_tags: 推噓文資訊
+        articles, urls = [], []		#articles: ptt文章所有內容     #合併urls = [],Merge時請刪此注解
         for page in range(page_num):	#取得PTT頁面資訊
-            url_key = PTT_URL + Board + '/search?page=' + str(page+1) + '&q=' + Search
-            url = url_key if KEY == 1 else PTT_URL if page == 0 else getNext(PTT_URL)
+            url = PTT_URL + Board + '/search?page=' + str(page+1) + '&q=' + Search  #url_key用不到,刪改成已有的url，Merge時請刪此注解
+            #url = url_key #if KEY == 1 else PTT_URL   #刪不用條件、函式,Merge時請刪此注解
             response = requests.get(url)
             urls = get_article_url(response.text)
         ############################################################
             for url in urls:
                 print(url)
                 text = get_web_page(url)
-                article, push_tag = get_data(text)
+                article = get_data(text)
                 articles.append(article)
-                push_tags.append(push_tag)
+#                
         ############################################################
         #計算關鍵字出現次數，以及關鍵字出現的文章其推噓文數量
         sum_sem_list = []			#該關鍵字出現總數
