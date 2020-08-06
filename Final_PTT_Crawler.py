@@ -34,8 +34,8 @@ def get_web_page(url):
 def get_data(dom):                            #搜索dom節點
     soup = BeautifulSoup(dom , 'html.parser')
     article = soup.find(id='main-content')
-    push_tag = soup.find_all('span', 'push-tag')  #push-tag可以刪嗎?
-    return article, push_tag
+
+    return article
 
 #############################################
 #          		讀取文章網址         #
@@ -68,7 +68,6 @@ def getNext(url):
 #          			畫圖				     #
 ##################a##########################
 ##################圓餅圖######################
-
 def DrawPie(font, labels_list, percent_list, title):				#labels_list: 圓餅圖的字    #percent_list: 圓餅圖各項的比例
 	labels, sizes = [], []											
 	plt.title(title, fontproperties = font)
@@ -91,7 +90,6 @@ def DrawBar(font, sem_list, bar_list, title):						#sem_list: 直方圖的每條
 		plt.bar(y_pos + 0.25*i , bar_list[i], 0.2, alpha=.5, label = sem_list[i])
 	plt.legend(loc = "upper right", prop = font)
 
-	
 #############################################
 #           主程式:進行資料分析              #
 #############################################
@@ -100,12 +98,22 @@ if __name__ == '__main__':
     #2 = 'Lifeismoney'
     #3 = '振興'
     #4 = '三倍'
-    KEY = 1
+    KEY = 1      #有沒有加入搜尋字眼 1:有 0:沒有
+    print('''省錢: Lifeismoney/CPBL: Elephants/籃球: NBA,
+遊戲: LOL/Hate: HatePolitics/婚姻: marriage,
+車車: car/資訊: MobileComm/工作: Tech_Job,
+聊天: WomenTalk/心情: Boy-Girl/家庭: BabyMother,
+硬體: PC_Shopping/娛樂: joke/主機: PlayStation,
+韓國: KoreaStar/聯誼: AllTogether/理財: creditcard,
+高雄: Kaohsiung/台南: Tainan/CPBL: Lions,
+主機: NSwitch/CPBL:  Guardians/韓劇: KoreaDrama,
+綜藝: KR_Entertain/手遊: PCReDive/資訊: CVS,
+台中: TaichungBun/系統: iOS/美容: MakeUp''')
     Board = str(input("請輸入想要搜尋的版(Ex:creditcard)  :  "))
     PTT_URL = 'https://www.ptt.cc/bbs/' if KEY == 1 else 'https://www.ptt.cc/bbs/' + Board + '/index.html'
     page_num = 10
     datasize = eval(input("請輸入欲分析的詞彙個數  :  "))  
-    new_sum_sem_list = [0]*datazise
+    new_sum_sem_list = [0]*datasize
     urls = []
     semantic_list = []			#存放輸入的關鍵字
     #這個lis的命名意義???
@@ -115,19 +123,19 @@ if __name__ == '__main__':
         Search = semantic_in
         semantic_list.append(semantic_in)
     for critic_word in range(0,datasize):                        #q改為critic_word
-        KEY = 1#有沒有加入搜尋字眼 1:有 0:沒有
-        if critic_word == 0:
-            Board = 'creditcard'	    	#選取PTT看板	!!!!!!(凡是設有內容分級規定處理，即不能直接進入看板者，EX.八卦版...等會沒辦法爬)!!!!!
-            Search = '振興'   		#加入搜尋特定字眼的文章 EX.在「省錢」/「理財」版找尋標題有含'振興券/卷'or'三倍券/卷'的文章
-        elif critic_word == 1:
-            Board = 'creditcard'
-            Search = '三倍'
-        elif critic_word == 2:
-            Board = 'Lifeismoney'
-            Search = '振興'
-        elif critic_word == 3:
-            Board = 'Lifeismoney'
-            Search = '三倍'
+        #有沒有加入搜尋字眼 1:有 0:沒有
+#        if critic_word == 0:
+#            Board = 'creditcard'	    	#選取PTT看板	!!!!!!(凡是設有內容分級規定處理，即不能直接進入看板者，EX.八卦版...等會沒辦法爬)!!!!!
+#            Search = '振興'   		#加入搜尋特定字眼的文章 EX.在「省錢」/「理財」版找尋標題有含'振興券/卷'or'三倍券/卷'的文章
+#        elif critic_word == 1:
+#            Board = 'creditcard'
+#            Search = '三倍'
+#        elif critic_word == 2:
+#            Board = 'Lifeismoney'
+#            Search = '振興'
+#        elif critic_word == 3:
+#            Board = 'Lifeismoney'
+#            Search = '三倍'
         ############################################################
         '''
         datasize = eval(input("請輸入欲分析的詞彙個數  :  "))
@@ -142,7 +150,7 @@ if __name__ == '__main__':
             semantic_list.append(semantic_in)
         '''
         ############################################################
-        articles, push_tags = [], []		#articles: ptt文章所有內容   #push_tags: 推噓文資訊
+        articles = []		#articles: ptt文章所有內容   #push_tags: 推噓文資訊
         for page in range(page_num):	#取得PTT頁面資訊
             url_key = PTT_URL + Board + '/search?page=' + str(page+1) + '&q=' + Search
             url = url_key if KEY == 1 else PTT_URL if page == 0 else getNext(PTT_URL)
@@ -152,9 +160,9 @@ if __name__ == '__main__':
             for url in urls:
                 print(url)
                 text = get_web_page(url)
-                article, push_tag = get_data(text)
+                article = get_data(text)
                 articles.append(article)
-                push_tags.append(push_tag)
+                
         ############################################################
         #計算關鍵字出現次數，以及關鍵字出現的文章其推噓文數量
         sum_sem_list = []			#該關鍵字出現總數
