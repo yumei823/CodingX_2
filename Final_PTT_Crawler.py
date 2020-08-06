@@ -109,7 +109,6 @@ if __name__ == '__main__':
     PTT_URL = 'https://www.ptt.cc/bbs/' if KEY == 1 else 'https://www.ptt.cc/bbs/' + Board + '/index.html'
     page_num = 10
     datasize = eval(input("請輸入欲分析的詞彙個數  :  "))  
-    new_sum_sem_list = [0]*datasize
     urls = []
     semantic_list = []			#存放輸入的關鍵字
     #這個lis的命名意義???
@@ -118,7 +117,7 @@ if __name__ == '__main__':
         semantic_in = input("請輸入第"+str(num_word+1)+"個關鍵字  :  ")			#改變你想要找的關鍵字
         Search = semantic_in
         semantic_list.append(semantic_in)
-    for critic_word in range(0,datasize):
+    for critic_word in range(0,1):
         articles = []		#articles: ptt文章所有內容
         for page in range(page_num):	#取得PTT頁面資訊
             url_key = PTT_URL + Board + '/search?page=' + str(page+1) + '&q=' + Search
@@ -141,16 +140,10 @@ if __name__ == '__main__':
             for index in articles:
                 sem_count += str(index).count(semantic_list[sum_critic])
             sum_sem_list.append(sem_count)
-        print(sum_sem_list)
-
-        for new_crit_cal in range(0,datasize):         #把i改成new_crit_cal
-            new_sum_sem_list[new_crit_cal] = new_sum_sem_list[new_crit_cal] + sum_sem_list[new_crit_cal]
-        print(new_sum_sem_list)
-
 
         ############################################################
         #將所有找尋到的字彙個數相加，計算總合
-    sum_sem_list=new_sum_sem_list
+
     sum_all = sum(sum_sem_list)
     percent_list = []						#關鍵字佔比
         #計算單一詞彙佔全部字彙的百分比
